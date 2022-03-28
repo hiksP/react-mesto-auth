@@ -13,3 +13,8 @@
   border-style: none;
   border-radius: 2px;
 }
+
+.sign__button {
+  opacity: .6;
+  cursor: pointer;
+}

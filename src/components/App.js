@@ -11,6 +11,7 @@ import { AddPlacePopup } from './AddPlacePopup.js';
 import {Card} from "./Card.js";
 import { Login } from "./Login.js";
 import { Register } from "./Register.js";
+import { InfoToolTip } from "./InfoToolTip";
 
 function App() {
 // стейт перменные попапов
@@ -174,6 +175,7 @@ const closeAllPopups = () => {
       <ImagePopup
         onClose={closeAllPopups}
         card={selectedCard} /> */}
+      <InfoToolTip/>  
     </div>
   </div>
 </CurrentUserContext.Provider>

@@ -6,3 +6,8 @@
   font-weight: 400;
   line-height: 22px;
 }
+
+.header__text:hover {
+  opacity: .6;
+  cursor: pointer;
+}
