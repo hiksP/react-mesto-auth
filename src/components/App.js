@@ -156,7 +156,8 @@ const closeAllPopups = () => {
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <div className="page__size">
-        <Header/>
+        <Header
+        text=""/>
       <Main
       cards={sectionWithCards()}
       onEditAvatar={handleEditAvatarClick}
