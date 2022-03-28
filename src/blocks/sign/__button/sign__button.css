@@ -1,0 +1,15 @@
+.sign__button {
+  color: black;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  background-color: white;
+  max-width: 358px;
+  width: calc(100% - 72px);
+  height: 50px;
+  padding: 0;
+  margin: 0 0 15px 0;
+  border-style: none;
+  border-radius: 2px;
+}

@@ -9,6 +9,8 @@ import { EditProfilePopup } from './EditProfilePopup.js';
 import { EditAvatarPopup } from './EditAvatarPopup.js';
 import { AddPlacePopup } from './AddPlacePopup.js';
 import {Card} from "./Card.js";
+import { Login } from "./Login.js";
+import { Register } from "./Register.js";
 
 function App() {
 // стейт перменные попапов
@@ -156,7 +158,8 @@ const closeAllPopups = () => {
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <div className="page__size">
-        <Header
+      <Register/>
+        {/* <Header
         text=""/>
       <Main
       cards={sectionWithCards()}
@@ -170,10 +173,10 @@ const closeAllPopups = () => {
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
       <ImagePopup
         onClose={closeAllPopups}
-        card={selectedCard} />
+        card={selectedCard} /> */}
     </div>
   </div>
-</CurrentUserContext.Provider>  
+</CurrentUserContext.Provider>
   );
 }
 

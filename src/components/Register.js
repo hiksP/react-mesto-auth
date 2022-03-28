@@ -4,14 +4,16 @@ export function Register() {
     return(
         <section className="sign">
           <Header
-          text="Регистрация"/>
+          text="Войти"/>
           <h1 className="sign__title">Регистрация</h1>
           <form className="sign__form">
-            <input type="email" name="signUpEmail" placeholder="Email" className="sign__input"></input>
-            <input type="text" name="signUpPassword" placeholder="Пароль" className="sign__input"></input>
+            <ul className="sign__list">
+              <input className="sign__input" type="email" name="signUpEmail" placeholder="Email"></input>
+              <input className="sign__input" type="text" name="signUpPassword" placeholder="Пароль"></input>
+            </ul>
+            <button className="sign__button" type="submit">Зарегистрироваться</button>
+            <a className="sign__reminder">Уже зарегистрированы? Войти</a>
           </form>
-          <button type="submit">Зарегистрированы</button>
-          <a className="">Уже зарегистрированы? Войти</a>
         </section>
     )
 }
