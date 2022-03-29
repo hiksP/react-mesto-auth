@@ -12,6 +12,8 @@ import {Card} from "./Card.js";
 import { Login } from "./Login.js";
 import { Register } from "./Register.js";
 import { InfoToolTip } from "./InfoToolTip";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import {ProtectedRoute} from "./ProtectedRoute.js"
 
 function App() {
 // стейт перменные попапов
@@ -24,6 +26,10 @@ const [selectedCard, setSelectedCard] = useState(null);
 // стейт карточек
 
 const [cards, setCards] = useState([]);
+
+// стейт логина
+
+const [loggedIn, setLoggedIn] = useState(true);
 
 // стейт с данными пользователя 
 
@@ -159,23 +165,30 @@ const closeAllPopups = () => {
   <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <div className="page__size">
-      <Register/>
-        {/* <Header
-        text=""/>
-      <Main
-      cards={sectionWithCards()}
-      onEditAvatar={handleEditAvatarClick}
-      onEditProfile={handleEditProfileClick}
-      onAddPlace={handleAddPlaceClick}
-      />
-      <Footer />
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
-      <ImagePopup
-        onClose={closeAllPopups}
-        card={selectedCard} /> */}
-      <InfoToolTip/>  
+      <Header
+      text=""/>
+        <Routes>
+          <Route path="/sign-in" element={<Login/>} />
+          <Route path="/sign-up" element={<Register/>} />
+          <Route path="/" element={
+            <ProtectedRoute
+              loggedIn={loggedIn}
+              component={
+              <Main
+              cards={sectionWithCards()}
+              onEditAvatar={handleEditAvatarClick}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick} />}
+            />} 
+          />
+        </Routes>
+        <Footer />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+        <ImagePopup
+          onClose={closeAllPopups}
+          card={selectedCard} />
     </div>
   </div>
 </CurrentUserContext.Provider>

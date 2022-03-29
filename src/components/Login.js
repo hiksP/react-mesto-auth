@@ -1,10 +1,6 @@
-import { Header } from "./Header";
-
 export function Login() {
     return(
         <section className="sign">
-          <Header
-          text="Регистрация"/>
           <h1 className="sign__title">Вход</h1>
           <form className="sign__form">
             <input className="sign__input" type="email" name="signInEmail" placeholder="Email"></input>

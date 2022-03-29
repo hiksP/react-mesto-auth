@@ -1,10 +1,6 @@
-import { Header } from "./Header";
-
 export function Register() {
     return(
         <section className="sign">
-          <Header
-          text="Войти"/>
           <h1 className="sign__title">Регистрация</h1>
           <form className="sign__form">
             <ul className="sign__list">
