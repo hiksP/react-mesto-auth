@@ -14,6 +14,7 @@ import { Register } from "./Register.js";
 import { InfoToolTip } from "./InfoToolTip";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import {ProtectedRoute} from "./ProtectedRoute.js"
+import { authApi } from '../utils/authApi.js';
 
 function App() {
 // стейт перменные попапов
