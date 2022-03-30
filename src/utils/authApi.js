@@ -11,30 +11,26 @@ class AuthApi {
     } 
 
     //регистрация
-    signUp({email, password}) {
+    signUp(email, password) {
+        console.log(email)
         return fetch(`${this._baseUrl}/signup`, {
             method: "POST",
             headers: {
-                'Accept': 'application/json',
                 "Content-Type": "application/json" 
             },
-            body: JSON.stringify({password, email})
-        }) .then(this._getResponseData)
+            body: JSON.stringify({email, password})
+        }).then((res) => this._getResponseData(res))
     }
 
     // авторизация
-    signIn({email, password}) {
+    signIn(email, password) {
         return fetch(`${this._baseUrl}/signin`, {
             method: "POST",
             headers: {
-                'Accept': 'application/json',
                 "Content-Type": "application/json" 
             },
-            body: JSON.stringify({password, email})
-        }) .then(this._getResponseData)
-            .then((data) => {
-                localStorage.setItem('token', data.token);
-            } )
+            body: JSON.stringify({email, password})
+        }) .then((res) => this._getResponseData(res))
     }
 
     tokenCheck() {

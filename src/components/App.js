@@ -12,11 +12,14 @@ import {Card} from "./Card.js";
 import { Login } from "./Login.js";
 import { Register } from "./Register.js";
 import { InfoToolTip } from "./InfoToolTip";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import {ProtectedRoute} from "./ProtectedRoute.js"
 import { authApi } from '../utils/authApi.js';
 
 function App() {
+
+const navigate = useNavigate();
+
 // стейт перменные попапов
   
 const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -30,11 +33,12 @@ const [cards, setCards] = useState([]);
 
 // стейт логина
 
-const [loggedIn, setLoggedIn] = useState(true);
+const [loggedIn, setLoggedIn] = useState(false);
 
 // стейт с данными пользователя 
 
 const [currentUser, setCurrentUser] = useState({})
+
 
 // установка данных текущего пользователя 
 useEffect(() => {
@@ -93,7 +97,9 @@ const handleCardClick  = (card) => {
   const signIn = (input) => {
     authApi.signIn(input.email, input.password)
     .then((res) => {
-      console.log(res);
+      localStorage.setItem('token', res.token);
+      setLoggedIn(true);
+      navigate('/');
     })
   }
 
