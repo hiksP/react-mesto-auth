@@ -89,6 +89,22 @@ const handleCardClick  = (card) => {
     closeAllPopups();
  } 
 
+ // передача данных логина на сервер
+  const signIn = (input) => {
+    authApi.signIn(input.email, input.password)
+    .then((res) => {
+      console.log(res);
+    })
+  }
+
+  // передача данных для рпегистрации
+  const handleRegister = (input) => {
+    authApi.signUp(input.email, input.password)
+    .then((res) => {
+      console.log(res);
+    })
+  }
+
 // закрытие всех попапов
 
 const closeAllPopups = () => {
@@ -169,8 +185,10 @@ const closeAllPopups = () => {
       <Header
       text=""/>
         <Routes>
-          <Route path="/sign-in" element={<Login/>} />
-          <Route path="/sign-up" element={<Register/>} />
+          <Route path="/sign-in" element={<Login
+            onLogin={signIn}/>} />
+          <Route path="/sign-up" element={<Register
+            onRegister={handleRegister}/>} />
           <Route path="/" element={
             <ProtectedRoute
               loggedIn={loggedIn}
