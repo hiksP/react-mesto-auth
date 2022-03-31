@@ -33,12 +33,12 @@ class AuthApi {
         }) .then((res) => this._getResponseData(res))
     }
 
-    tokenCheck() {
+    tokenCheck(token) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization" : `Bearer ${localStorage.getItem("jwt")}`
+                "Authorization" : `Bearer ${token}`
             }
         }) .then(this._getResponseData)
     }

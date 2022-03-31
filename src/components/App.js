@@ -12,9 +12,11 @@ import {Card} from "./Card.js";
 import { Login } from "./Login.js";
 import { Register } from "./Register.js";
 import { InfoToolTip } from "./InfoToolTip";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import {ProtectedRoute} from "./ProtectedRoute.js"
 import { authApi } from '../utils/authApi.js';
+import Success from "../images/RegisterSuccess.svg";
+import Fail from "../images/RegisterFail.svg";
 
 function App() {
 
@@ -25,6 +27,8 @@ const navigate = useNavigate();
 const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
 const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
 const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+const [isInfoToolTipOpenSucess, setInfoToolTipSuccessOpen] = useState(false);
+const [isInfoToolTipFailOpen, setInfoToolTipFailOpen] = useState(false)
 const [selectedCard, setSelectedCard] = useState(null);
 
 // стейт карточек
@@ -33,22 +37,37 @@ const [cards, setCards] = useState([]);
 
 // стейт логина
 
-const [loggedIn, setLoggedIn] = useState(false);
+const [loggedIn, setLoggedIn] = useState(false)
 
 // стейт с данными пользователя 
 
 const [currentUser, setCurrentUser] = useState({})
 
+// проверка на наличие токена в хранилище браузера
+useEffect(() => {
+    const jwt = localStorage.getItem("jwt")
+    authApi.tokenCheck(jwt)
+    .then((res) => {
+      setLoggedIn(true)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}, [])
+
 
 // установка данных текущего пользователя 
 useEffect(() => {
-  api.getUserInfo()
-  .then(res => {
-    setCurrentUser(res)
-  })
-  .catch(err => {
-    console.log(err);
-  })
+  const jwt = localStorage.getItem("jwt")
+  if(jwt) {
+    api.getUserInfo()
+    .then(res => {
+      setCurrentUser(res)
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 },[])
 
 // обработчики открытия попапов
@@ -93,13 +112,17 @@ const handleCardClick  = (card) => {
     closeAllPopups();
  } 
 
- // передача данных логина на сервер
+ // реализация логина + сохранение токена
   const signIn = (input) => {
     authApi.signIn(input.email, input.password)
     .then((res) => {
-      localStorage.setItem('token', res.token);
+      localStorage.setItem("jwt", res.token);
       setLoggedIn(true);
       navigate('/');
+    })
+    .catch((err) => {
+      console.log(err);
+      setInfoToolTipFailOpen(true);
     })
   }
 
@@ -107,7 +130,10 @@ const handleCardClick  = (card) => {
   const handleRegister = (input) => {
     authApi.signUp(input.email, input.password)
     .then((res) => {
-      console.log(res);
+      setInfoToolTipSuccessOpen(true);
+    })
+    .catch((err) => {
+      setInfoToolTipFailOpen(true);
     })
   }
 
@@ -118,6 +144,8 @@ const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setInfoToolTipFailOpen(false);
+    setInfoToolTipSuccessOpen(false);
 }
 
   // загрузка карточек
@@ -194,6 +222,7 @@ const closeAllPopups = () => {
           <Route path="/sign-in" element={<Login
             onLogin={signIn}/>} />
           <Route path="/sign-up" element={<Register
+            login={loggedIn}
             onRegister={handleRegister}/>} />
           <Route path="/" element={
             <ProtectedRoute
@@ -214,6 +243,8 @@ const closeAllPopups = () => {
         <ImagePopup
           onClose={closeAllPopups}
           card={selectedCard} />
+        <InfoToolTip image={Success} isOpen={isInfoToolTipOpenSucess} onClose={closeAllPopups} message="Вы успешно зарегистрировались!" />
+        <InfoToolTip image={Fail} isOpen={isInfoToolTipFailOpen} onClose={closeAllPopups} message="Что-то пошло не так! Попробуйте ещё раз." />
     </div>
   </div>
 </CurrentUserContext.Provider>

@@ -1,6 +1,7 @@
 import { useRef } from "react";
+import { Navigate } from "react-router-dom";
 
-export function Register({onRegister}) {
+export function Register({login, onRegister}) {
 
   // создаем рефы
   const emailRef = useRef();
@@ -15,7 +16,9 @@ export function Register({onRegister}) {
     });
 }
 
-    return(
+    return   login ? (
+      <Navigate to="/" />
+    ) : (
         <section className="sign">
           <h1 className="sign__title">Регистрация</h1>
           <form onSubmit={handleSubmit} className="sign__form">
@@ -24,7 +27,7 @@ export function Register({onRegister}) {
               <input className="sign__input" ref={passwordRef} defaultValue={''} required type="text" name="signUpPassword" placeholder="Пароль"></input>
             </ul>
             <button className="sign__button" type="submit">Зарегистрироваться</button>
-            <a className="sign__reminder">Уже зарегистрированы? Войти</a>
+            <a href="/" className="sign__reminder">Уже зарегистрированы? Войти</a>
           </form>
         </section>
     )

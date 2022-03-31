@@ -19,8 +19,10 @@ export function Login({onLogin}) {
         <section className="sign">
           <h1 className="sign__title">Вход</h1>
           <form onSubmit={handleSubmit} className="sign__form">
-            <input className="sign__input" ref={emailRef} defaultValue={''} required type="email" name="signInEmail" placeholder="Email"></input>
-            <input className="sign__input" ref={passwordRef} defaultValue={''} required type="text" name="signInPassword" placeholder="Пароль"></input>
+            <ul className="sign__list">
+              <input className="sign__input" ref={emailRef} defaultValue={''} required type="email" name="signInEmail" placeholder="Email"></input>
+              <input className="sign__input" ref={passwordRef} defaultValue={''} required type="text" name="signInPassword" placeholder="Пароль"></input>
+            </ul>
             <button className="sign__button" type="submit">Войти</button>
           </form>
         </section>

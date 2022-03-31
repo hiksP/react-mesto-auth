@@ -12,9 +12,10 @@
   margin: 0 0 15px 0;
   border-style: none;
   border-radius: 2px;
+  transition: opacity .3s linear;
 }
 
-.sign__button {
+.sign__button:hover {
   opacity: .6;
   cursor: pointer;
 }
