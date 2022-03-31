@@ -3,7 +3,6 @@ import Success from "../images/RegisterSuccess.svg";
 import Fail from "../images/RegisterFail.svg";
 
 export function InfoToolTip({isOpen, onClose}) {
-  console.log(isOpen)
 
   useEffect(() => {
     const handleEscClose = (e) => {
