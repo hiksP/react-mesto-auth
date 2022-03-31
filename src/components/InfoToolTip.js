@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import Success from "../images/RegisterSuccess.svg";
+import Fail from "../images/RegisterFail.svg";
 
-export function InfoToolTip({image, isOpen, onClose, message}) {
+export function InfoToolTip({isOpen, onClose}) {
+  console.log(isOpen)
 
   useEffect(() => {
     const handleEscClose = (e) => {
@@ -15,12 +18,12 @@ export function InfoToolTip({image, isOpen, onClose, message}) {
   }, []); 
   
     return (
-      <div className={isOpen ? `popup popup_sign popup_opened` : `popup popup_sign`}>
+      <div className={isOpen.opened ? `popup popup_sign popup_opened` : `popup popup_sign`}>
         <div className="popup__overlay"></div>
         <div className="popup__container popup__container_registration">
           <button className="popup__close" onClick={onClose} type="button"></button>
-          <img className="popup__registration-image" src={image}/>
-          <a className="popup__registration-message">{message}</a>
+          <img className="popup__registration-image" src={isOpen.status ? Success : Fail}/>
+          <a className="popup__registration-message">{isOpen.status ? `Вы успешно зарегистрировались!` : `Что-то пошло не так! Попробуйте ещё раз.`}</a>
         </div>
       </div>
     )

@@ -27,8 +27,7 @@ const navigate = useNavigate();
 const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
 const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
 const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
-const [isInfoToolTipOpenSucess, setInfoToolTipSuccessOpen] = useState(false);
-const [isInfoToolTipFailOpen, setInfoToolTipFailOpen] = useState(false)
+const [isInfoToolTipOpen, setInfoToolTipOpen] = useState({opened: false, status: false});
 const [selectedCard, setSelectedCard] = useState(null);
 
 // стейт карточек
@@ -49,20 +48,21 @@ const [currentUser, setCurrentUser] = useState({})
 // проверка на наличие токена в хранилище браузера
 useEffect(() => {
     const jwt = localStorage.getItem("jwt")
-    authApi.tokenCheck(jwt)
-    .then((res) => {
-      setLoggedIn(true)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    if(jwt) {
+      authApi.tokenCheck(jwt)
+      .then((res) => {
+        setLoggedIn(true)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
 }, [])
 
 
 // установка данных текущего пользователя 
 useEffect(() => {
-  const jwt = localStorage.getItem("jwt")
-  if(jwt) {
+  if(loggedIn) {
     api.getUserInfo()
     .then(res => {
       setCurrentUser(res)
@@ -134,7 +134,7 @@ const handleCardClick  = (card) => {
     })
     .catch((err) => {
       console.log(err);
-      setInfoToolTipFailOpen(true);
+      setInfoToolTipOpen({opened: true, status: false});
     })
   }
 
@@ -142,11 +142,11 @@ const handleCardClick  = (card) => {
   const handleRegister = (input) => {
     authApi.signUp(input.email, input.password)
     .then((res) => {
-      setInfoToolTipSuccessOpen(true);
+      setInfoToolTipOpen({opened: true, status: true});
       navigate('/sign-in');
     })
     .catch((err) => {
-      setInfoToolTipFailOpen(true);
+      setInfoToolTipOpen({opened: true, status: false});
     })
   }
 
@@ -157,21 +157,22 @@ const closeAllPopups = () => {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setInfoToolTipFailOpen(false);
-    setInfoToolTipSuccessOpen(false);
+    setInfoToolTipOpen({opened: false, status: isInfoToolTipOpen.status});
 }
 
   // загрузка карточек
 
   useEffect(() => {
-    api.getCards()
-    .then(res => {
-      setCards(res);
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [])
+    if(loggedIn) {
+      api.getCards()
+      .then(res => {
+        setCards(res);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  }, [loggedIn])
 
     // функция лайка карточки
 
@@ -257,8 +258,7 @@ const closeAllPopups = () => {
         <ImagePopup
           onClose={closeAllPopups}
           card={selectedCard} />
-        <InfoToolTip image={Success} isOpen={isInfoToolTipOpenSucess} onClose={closeAllPopups} message="Вы успешно зарегистрировались!" />
-        <InfoToolTip image={Fail} isOpen={isInfoToolTipFailOpen} onClose={closeAllPopups} message="Что-то пошло не так! Попробуйте ещё раз." />
+        <InfoToolTip isOpen={isInfoToolTipOpen} onClose={closeAllPopups} />
     </div>
   </div>
 </CurrentUserContext.Provider>
