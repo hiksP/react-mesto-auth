@@ -15,8 +15,6 @@ import { InfoToolTip } from "./InfoToolTip";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import {ProtectedRoute} from "./ProtectedRoute.js"
 import { authApi } from '../utils/authApi.js';
-import Success from "../images/RegisterSuccess.svg";
-import Fail from "../images/RegisterFail.svg";
 
 function App() {
 
