@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export function Register({login, onRegister}) {
 
@@ -27,7 +27,7 @@ export function Register({login, onRegister}) {
               <input className="sign__input" ref={passwordRef} defaultValue={''} required type="text" name="signUpPassword" placeholder="Пароль"></input>
             </ul>
             <button className="sign__button" type="submit">Зарегистрироваться</button>
-            <a href="/" className="sign__reminder">Уже зарегистрированы? Войти</a>
+            <Link className="sign__reminder" to="/sign-in">Уже зарегистрированы? Войти</Link>
           </form>
         </section>
     )

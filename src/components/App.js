@@ -39,6 +39,9 @@ const [cards, setCards] = useState([]);
 
 const [loggedIn, setLoggedIn] = useState(false)
 
+// стейт почты пользователя
+const [email, setEmail] = useState('');
+
 // стейт с данными пользователя 
 
 const [currentUser, setCurrentUser] = useState({})
@@ -68,7 +71,7 @@ useEffect(() => {
       console.log(err);
     })
   }
-},[])
+},[loggedIn])
 
 // обработчики открытия попапов
 
@@ -112,11 +115,20 @@ const handleCardClick  = (card) => {
     closeAllPopups();
  } 
 
+ // хэндлер выхода из профиля
+
+ const handleLogOut = () => {
+  localStorage.removeItem("jwt");
+  setLoggedIn(false);
+  navigate('/sign-in');
+ }
+
  // реализация логина + сохранение токена
   const signIn = (input) => {
     authApi.signIn(input.email, input.password)
     .then((res) => {
       localStorage.setItem("jwt", res.token);
+      setEmail(input.email);
       setLoggedIn(true);
       navigate('/');
     })
@@ -131,6 +143,7 @@ const handleCardClick  = (card) => {
     authApi.signUp(input.email, input.password)
     .then((res) => {
       setInfoToolTipSuccessOpen(true);
+      navigate('/sign-in');
     })
     .catch((err) => {
       setInfoToolTipFailOpen(true);
@@ -217,7 +230,8 @@ const closeAllPopups = () => {
     <div className="page">
       <div className="page__size">
       <Header
-      text=""/>
+      onCLick={handleLogOut}
+      email={email} />
         <Routes>
           <Route path="/sign-in" element={<Login
             onLogin={signIn}/>} />
